@@ -296,7 +296,7 @@ void PointCloudXyzrgbNodelet::convert(const sensor_msgs::ImageConstPtr& depth_ms
   float constant_x = unit_scaling / model_.fx();
   float constant_y = unit_scaling / model_.fy();
   float bad_point = std::numeric_limits<float>::quiet_NaN ();
-  
+
   const T* depth_row = reinterpret_cast<const T*>(&depth_msg->data[0]);
   int row_step = depth_msg->step / sizeof(T);
   const uint8_t* rgb = &rgb_msg->data[0];
@@ -324,9 +324,12 @@ void PointCloudXyzrgbNodelet::convert(const sensor_msgs::ImageConstPtr& depth_ms
       else
       {
         // Fill in XYZ
-        *iter_x = (u - center_x) * depth * constant_x;
-        *iter_y = (v - center_y) * depth * constant_y;
-        *iter_z = DepthTraits<T>::toMeters(depth);
+        // *iter_x = (u - center_x) * depth * constant_x;
+        // *iter_y = (v - center_y) * depth * constant_y;
+        // *iter_z = DepthTraits<T>::toMeters(depth);
+        *iter_x = DepthTraits<T>::toMeters(depth);
+        *iter_y = - (v - center_y) * depth * constant_y;
+        *iter_z = - (u - center_x) * depth * constant_x;
       }
 
       // Fill in color
