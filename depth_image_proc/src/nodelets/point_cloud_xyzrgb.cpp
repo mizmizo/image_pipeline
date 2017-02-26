@@ -328,8 +328,8 @@ void PointCloudXyzrgbNodelet::convert(const sensor_msgs::ImageConstPtr& depth_ms
         // *iter_y = (v - center_y) * depth * constant_y;
         // *iter_z = DepthTraits<T>::toMeters(depth);
         *iter_x = DepthTraits<T>::toMeters(depth);
-        *iter_y = - (v - center_y) * depth * constant_y;
-        *iter_z = - (u - center_x) * depth * constant_x;
+        *iter_y = - (u - center_x) * depth * constant_x;
+        *iter_z = - (v - center_y) * depth * constant_y;
       }
 
       // Fill in color
